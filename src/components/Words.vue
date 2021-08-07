@@ -27,7 +27,7 @@ export default {
     axios
       .get(this.Common.apiAddress+this.Common.getword)
       .then(response => {
-        this.message = response.data.words.reverse()
+        this.message = response.data.data.words.reverse()
       })
       .catch(error => {
         console.log(error)

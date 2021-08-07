@@ -1,6 +1,7 @@
 <template>
   <div class="Header">
     <div class="container">
+      <div class="bg"></div>
       <el-row :gutter="10">
           <el-col :xs="3" :sm="2" :md="2" :lg="1" :xl="0"></el-col>
           <el-col :xs="13" :sm="8" :md="6" :lg="8" :xl="8">
@@ -47,6 +48,16 @@ export default {
 </script>
 
 <style scoped>
+  .bg {
+    float: left;
+    width: 100vw;
+    height: 10px;
+    background: white;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    z-index: -1;
+  }
   .Header {
     width: 98%;
     z-index: 100;

@@ -38,15 +38,56 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             console.log('upload:'+this.ruleForm.message);
-            this.$notify({
-              title: '提交成功',
-              message: '骑手正在配送鸡汤中...',
-              type: 'success'
+            axios({
+              method: 'post',
+              url: this.Common.submiturl,
+              data: JSON.stringify(this.ruleForm),
+            })
+            .then((response) => {
+              if (response.status == 200 && response.data.code == 200) {
+                  this.$notify({
+                    title: '提交成功',
+                    message: '骑手正在配送鸡汤中...',
+                    type: 'success'
+                  });
+                  // window.location.reload();
+                } else {
+                  if (response.data.code == 2001) {
+                    this.$notify({
+                      title: '提交失败',
+                      message: '数据库连接出错 请联系站长处理',
+                      type: 'error'
+                    });
+                  } else if (response.data.code == 3001) {
+                    this.$notify({
+                      title: '提交失败',
+                      message: '呀，鸡汤在路上撒了...',
+                      type: 'error'
+                    });
+                  } else if (response.data.code == 4001) {
+                    this.$notify({
+                      title: '提交失败',
+                      message: '这碗鸡汤的配方似乎已经存在了',
+                      type: 'error'
+                    });
+                  } else if (response.data.code == 4002) {
+                    this.$notify({
+                      title: '提交失败',
+                      message: '鸡汤满啦，再怎么送也放不下了',
+                      type: 'error'
+                    });
+                  }
+                  console.log(response.data.info);
+                }
+            }).catch(function (error) {
+              console.log(error);
             });
+            
           } else {
             console.log('error submit!!');
             return false;
           }
+          setTimeout(this.resetForm, 1000);
         });
       },
       resetForm(formName) {
